@@ -1,13 +1,13 @@
 var user = {
 	name:'user',
-	roundWon:0,
-	currentEmoji:"underfined",
+	roundsWon:0,
+	currentEmoji:"undefined",
 };
 
 var pc = {
 	name:'pc',
-	roundWon:0,
-	currentEmoji:"underfined",
+	roundsWon:0,
+	currentEmoji:"undefined",
 };
 
 //define our emojis
@@ -20,7 +20,9 @@ var currentRound = 0;
 var startNextRound = function(){
 // pc and user to be assigner a random emoji each
 // round +1
-	currentRound = currentRound + 1;
+	currentRound ++;
+
+	console.log('round',currentRound);
 
 // set player emojis
 	pc.currentEmoji = getRandomEmoji();
@@ -44,11 +46,16 @@ var snap = function (pcCalledsnap) {
 	// if user gets it wrong then pc gets +1 to roundsWon
 	// notify of what just happened - console/UI/html
 
+// check for undefined emojis
+if(pc.currentEmoji == undefined || user.currentEmoji == undefined){
+		return false;
+	}
+
 var snap = pc.currentEmoji == user.currentEmoji;
 
 if (pc.currentEmoji == joker || user.currentEmoji == joker) {
 		snap = ture;
-	};
+	}
 
 	// 逻辑或 (并集):"||",逻辑与（交集）："&&"，逻辑非(差集)："!"
 console.group('Snap Called by:' + (pcCalledsnap ? 'PC':'User'));
@@ -71,8 +78,23 @@ console.group('Snap Called by:' + (pcCalledsnap ? 'PC':'User'));
 	} else{
 		pc.roundsWon ++;
 		console.log('user lost the round')
-	};
+	}
 };
 
-	console.log('snap',snap)
+console.log('user:', user.roundsWon,'pc:',pc.roundsWon);
+
+pc.currentEmoji = undefined;
+user.currentEmoji = undefined;
+
+if(user.roundsWon == 3){
+	console.log('user won the game!!')
+	console.log('Game over')
+}
+else if(pc.roundsWon == 4){
+console.log('pc won the game!!')
+console.log('Game over')
+};
+
+	console.groupEnd();
+
 };
